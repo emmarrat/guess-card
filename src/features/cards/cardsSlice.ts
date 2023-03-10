@@ -9,6 +9,8 @@ interface CardsState {
   winningCard: string;
   isShowed: boolean;
   message: string;
+  balance: number;
+  isStarted: boolean;
 }
 
 const initialState: CardsState = {
@@ -17,6 +19,8 @@ const initialState: CardsState = {
   winningCard: '',
   isShowed: false,
   message: '',
+  balance: 10000,
+  isStarted: false,
 }
 
 export const cardsSlice = createSlice({
@@ -31,6 +35,17 @@ export const cardsSlice = createSlice({
     },
     setMessage: (state, action: PayloadAction<string>) => {
       state.message = action.payload;
+    },
+    makeCalculation: (state) => {
+      if(state.message === 'Congrats! You won!') {
+        state.balance *= 2;
+      }
+      if(state.message === 'You lose') {
+        state.balance -= 2000;
+      }
+    },
+    startGame: (state) => {
+      state.isStarted = true;
     }
   },
   extraReducers: builder => {
@@ -80,7 +95,7 @@ export const cardsSlice = createSlice({
 
 export const cardsReducer = cardsSlice.reducer;
 
-export const {showCard, closeCard, setMessage} = cardsSlice.actions;
+export const {showCard, closeCard, setMessage, makeCalculation, startGame} = cardsSlice.actions;
 
 
 export const selectCards = (state: RootState) => state.cards.items;
@@ -88,3 +103,5 @@ export const selectFetchingCards = (state: RootState) => state.cards.fetching;
 export const selectWinningCard = (state: RootState) => state.cards.winningCard;
 export const selectIsShowed = (state: RootState) => state.cards.isShowed;
 export const selectMessage = (state: RootState) => state.cards.message;
+export const selectBalance = (state: RootState) => state.cards.balance;
+export const selectIsStarted = (state: RootState) => state.cards.isStarted;
