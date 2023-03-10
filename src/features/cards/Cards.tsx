@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {fetchCards} from "./cardsThunks";
 import {
+  makeCalculation,
+  selectBalance,
   selectCards,
   selectFetchingCards,
   selectIsShowed, selectIsStarted,
@@ -25,6 +27,7 @@ const Cards = () => {
   const message = useAppSelector(selectMessage);
   const gameStarted = useAppSelector(selectIsStarted);
   const user = useAppSelector(selectUser);
+  const balance = useAppSelector(selectBalance);
 
   useEffect(() => {
     dispatch(fetchCards());
@@ -34,23 +37,27 @@ const Cards = () => {
   const findCard = (cardCode: string) => {
     dispatch(showCard());
     if (winningCard === 'draw') {
-      return dispatch(setMessage('No one wins! Both of cards are the same value!'));
+      dispatch(setMessage('No one wins! Both of cards are the same value!'));
     }
     if (cardCode === winningCard) {
-      return dispatch(setMessage('Congrats! You won!'));
+      dispatch(setMessage('Congrats! You won!'));
+      dispatch(makeCalculation('win'));
     }
-    return dispatch(setMessage('You lose'));
+    if (cardCode !== winningCard) {
+      dispatch(setMessage('You lose'));
+      dispatch(makeCalculation('lose'));
+    }
   };
 
-  if(!user) {
+  if (!user) {
     return <Navigate to="/login"/>
   }
 
-
   let content = (
     <>
-      <Grid container flexDirection="column" alignItems="center"  sx={{boxShadow: '1px 0px 15px 3px #6A6A6A', borderRadius: '9px', padding: '30px 0'}}>
-        <Typography variant="h3" fontWeight="bold" textAlign="center" >
+      <Grid container flexDirection="column" alignItems="center"
+            sx={{boxShadow: '1px 0px 15px 3px #6A6A6A', borderRadius: '9px', padding: '30px 0'}}>
+        <Typography variant="h3" fontWeight="bold" textAlign="center">
           Welcome to the Bridge Game!
         </Typography>
         <Typography variant="h6" textAlign="center" mt={5}>
@@ -72,8 +79,10 @@ const Cards = () => {
     content = (
       <Grid container flexDirection="column" alignItems="center">
         <Grid item>
-
-            <Typography variant="h4" fontWeight="bold" textAlign="center" mt={5}>{ isShowed ? message : 'Choose biggest card'}</Typography>
+          <Typography variant="h6" fontWeight="bold">Your current budget: {balance} $</Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="h4" fontWeight="bold" textTransform="uppercase" mt={3}>{isShowed ? message : 'Choose biggest card'}</Typography>
         </Grid>
         <Grid item container justifyContent="center" mt={5} spacing={5}>
           {loading ? <CircularProgress color="inherit" sx={{mt: 5}}/> : cards.map((card) => (
@@ -83,7 +92,7 @@ const Cards = () => {
           ))}
         </Grid>
         {isShowed && <Grid item mt={5}>
-          <PlayButton/>
+            <PlayButton/>
         </Grid>}
       </Grid>
     );

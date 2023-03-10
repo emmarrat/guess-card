@@ -37,11 +37,11 @@ export const cardsSlice = createSlice({
     setMessage: (state, action: PayloadAction<string>) => {
       state.message = action.payload;
     },
-    makeCalculation: (state) => {
-      if(state.message === 'Congrats! You won!') {
+    makeCalculation: (state, action:PayloadAction<string>) => {
+      if(action.payload === 'win') {
         state.balance *= 2;
       }
-      if(state.message === 'You lose') {
+      if(action.payload === 'lose') {
         state.balance -= 2000;
       }
     },
