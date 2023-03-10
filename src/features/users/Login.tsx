@@ -1,16 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {User} from "../../types";
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {loginUser, selectError, selectIsSuccess} from "./usersSlice";
-import {Avatar, Box, Button, Container, Grid, styled, TextField, Typography} from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { User } from '../../types';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { loginUser, selectError, selectIsSuccess } from './usersSlice';
+import { Avatar, Box, Button, Container, Grid, styled, TextField, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {useNavigate} from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 
 const ButtonColored = styled(Button)({
   backgroundColor: '#423794',
   '&:hover': {
-    backgroundColor: '#877cee'
+    backgroundColor: '#877cee',
   },
 });
 
@@ -27,8 +26,8 @@ const Login = () => {
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = event.target;
-    setState(prevState => ({...prevState, [name]: value}));
+    const { name, value } = event.target;
+    setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const submitFormHandler = async (event: React.FormEvent) => {
@@ -38,10 +37,9 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/')
+      navigate('/');
     }
   }, [isSuccess, navigate]);
-
 
   return (
     <Container component="main" maxWidth="xs">
@@ -53,13 +51,13 @@ const Login = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-          <LockOutlinedIcon/>
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign In
         </Typography>
-        <Box component="form" onSubmit={submitFormHandler} sx={{mt: 3}}>
+        <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -85,12 +83,7 @@ const Login = () => {
               />
             </Grid>
           </Grid>
-          <ButtonColored
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{mt: 3, mb: 2}}
-          >
+          <ButtonColored type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign in
           </ButtonColored>
         </Box>

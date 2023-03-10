@@ -6,9 +6,9 @@ const theme = createTheme({
       defaultProps: {
         variant: 'filled',
         fullWidth: true,
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 export default theme;

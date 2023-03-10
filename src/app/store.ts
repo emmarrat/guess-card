@@ -1,20 +1,20 @@
-import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist/es/constants';
-import {usersReducer} from "../features/users/usersSlice";
-import {cardsReducer} from "../features/cards/cardsSlice";
+import { usersReducer } from '../features/users/usersSlice';
+import { cardsReducer } from '../features/cards/cardsSlice';
 
 const usersPersistConfig = {
   key: 'bridge:users',
   storage,
-  whitelist: ['user']
-}
+  whitelist: ['user'],
+};
 
 const rootReducer = combineReducers({
-  users: persistReducer(usersPersistConfig,usersReducer),
-  cards: cardsReducer
+  users: persistReducer(usersPersistConfig, usersReducer),
+  cards: cardsReducer,
 });
 
 export const store = configureStore({
@@ -28,8 +28,6 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-
-
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

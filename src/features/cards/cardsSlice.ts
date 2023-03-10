@@ -1,7 +1,7 @@
-import {PlayingCard} from "../../types";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RootState} from "../../app/store";
-import {fetchCards} from "./cardsThunks";
+import { PlayingCard } from '../../types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
+import { fetchCards } from './cardsThunks';
 
 interface CardsState {
   items: PlayingCard[];
@@ -21,40 +21,40 @@ const initialState: CardsState = {
   message: '',
   balance: 10000,
   isStarted: false,
-}
+};
 
 export const cardsSlice = createSlice({
   name: 'cards',
   initialState,
   reducers: {
-    showCard: state => {
+    showCard: (state) => {
       state.isShowed = true;
     },
-    closeCard: state => {
+    closeCard: (state) => {
       state.isShowed = false;
       state.message = '';
     },
     setMessage: (state, action: PayloadAction<string>) => {
       state.message = action.payload;
     },
-    makeCalculation: (state, action:PayloadAction<string>) => {
-      if(action.payload === 'win') {
+    makeCalculation: (state, action: PayloadAction<string>) => {
+      if (action.payload === 'win') {
         state.balance *= 2;
       }
-      if(action.payload === 'lose') {
+      if (action.payload === 'lose') {
         state.balance -= 2000;
       }
     },
     startGame: (state) => {
       state.isStarted = true;
-    }
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(fetchCards.pending, (state) => {
-      state.items = []
+      state.items = [];
       state.fetching = true;
     });
-    builder.addCase(fetchCards.fulfilled, (state, {payload: cards}) => {
+    builder.addCase(fetchCards.fulfilled, (state, { payload: cards }) => {
       state.items = cards;
       state.fetching = false;
 
@@ -68,10 +68,10 @@ export const cardsSlice = createSlice({
         '8': 8,
         '9': 9,
         '10': 10,
-        'JACK': 11,
-        'QUEEN': 12,
-        'KING': 13,
-        'ACE': 14,
+        JACK: 11,
+        QUEEN: 12,
+        KING: 13,
+        ACE: 14,
       };
 
       const [card1, card2] = cards;
@@ -91,13 +91,12 @@ export const cardsSlice = createSlice({
     builder.addCase(fetchCards.rejected, (state) => {
       state.fetching = false;
     });
-  }
+  },
 });
 
 export const cardsReducer = cardsSlice.reducer;
 
-export const {showCard, closeCard, setMessage, makeCalculation, startGame} = cardsSlice.actions;
-
+export const { showCard, closeCard, setMessage, makeCalculation, startGame } = cardsSlice.actions;
 
 export const selectCards = (state: RootState) => state.cards.items;
 export const selectFetchingCards = (state: RootState) => state.cards.fetching;
