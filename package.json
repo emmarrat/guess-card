@@ -35,7 +35,8 @@
     "lint": "eslint \"src/**/*.{ts, tsx}\"",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "typecheck": "tsc --noemit"
   },
   "eslintConfig": {
     "extends": [
