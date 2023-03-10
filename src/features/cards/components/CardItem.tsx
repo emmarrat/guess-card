@@ -22,16 +22,16 @@ const winningCard = useAppSelector(selectWinningCard);
   };
   return (
     <>
-    <Card  sx={{width: '225px', boxShadow: isClicked ? '1px 0px 15px 3px #6A6A6A' : undefined}} onClick={handleClick}>
+    <Card  sx={{width: '225px', borderRadius: '14px', boxShadow: isClicked ? '1px 0px 15px 3px #6A6A6A' : undefined}} onClick={handleClick}>
       <CardMedia
         component="img"
         image={isShowed ? card.image : backOfCard}
         alt={isShowed ? card.value + ' ' + card.suit : 'back of the card'}
         sx={{height: '100%'}}
+
       />
     </Card>
       {winningCard === card.code && isShowed && <Typography textAlign="center" fontWeight="bold" mt={2}>This card is bigger!</Typography>}
-
     </>
   );
 };
