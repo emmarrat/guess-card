@@ -37,7 +37,7 @@ const Cards = () => {
   const findCard = (cardCode: string) => {
     dispatch(showCard());
     if (winningCard === 'draw') {
-      dispatch(setMessage('No one wins! Both of cards are the same value!'));
+      return dispatch(setMessage('No one wins! Both of cards are the same value!'));
     }
     if (cardCode === winningCard) {
       dispatch(setMessage('Congrats! You won!'));
