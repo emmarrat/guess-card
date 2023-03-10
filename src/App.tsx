@@ -2,12 +2,14 @@ import React from 'react';
 import {Route, Routes} from 'react-router-dom';
 import {Container, CssBaseline, Typography} from '@mui/material';
 import Login from "./features/users/Login";
+import AppToolbar from "./components/UI/AppToolbar/AppToolbar";
 
 const App = () => {
   return (
     <>
       <CssBaseline/>
       <header>
+        <AppToolbar/>
       </header>
       <main>
         <Container maxWidth="xl" sx={{mt: 5}}>
