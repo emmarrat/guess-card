@@ -13,6 +13,8 @@ import {
 import {CircularProgress, Grid, Typography} from "@mui/material";
 import CardItem from "./components/CardItem";
 import PlayButton from "./components/PlayButton";
+import {selectUser} from "../users/usersSlice";
+import {Navigate} from "react-router-dom";
 
 const Cards = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +24,7 @@ const Cards = () => {
   const isShowed = useAppSelector(selectIsShowed);
   const message = useAppSelector(selectMessage);
   const gameStarted = useAppSelector(selectIsStarted);
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchCards());
@@ -38,6 +41,11 @@ const Cards = () => {
     }
     return dispatch(setMessage('You lose'));
   };
+
+  if(!user) {
+    return <Navigate to="/login"/>
+  }
+
 
   let content = (
     <>
@@ -62,19 +70,22 @@ const Cards = () => {
 
   if (gameStarted) {
     content = (
-      <>
-        <Grid>
-          {isShowed && (
-            <Typography variant="h4" fontWeight="bold" textAlign="center" mt={5}>{message}</Typography>)}
+      <Grid container flexDirection="column" alignItems="center">
+        <Grid item>
+
+            <Typography variant="h4" fontWeight="bold" textAlign="center" mt={5}>{ isShowed ? message : 'Choose biggest card'}</Typography>
         </Grid>
-        <Grid container justifyContent="center" mt={5} spacing={5}>
+        <Grid item container justifyContent="center" mt={5} spacing={5}>
           {loading ? <CircularProgress color="inherit" sx={{mt: 5}}/> : cards.map((card) => (
             <Grid key={card.code} item>
               <CardItem card={card} isShowed={isShowed} onCardClick={findCard}/>
             </Grid>
           ))}
         </Grid>
-      </>
+        {isShowed && <Grid item mt={5}>
+          <PlayButton/>
+        </Grid>}
+      </Grid>
     );
   }
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import {Button} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
-import {selectIsShowed, selectIsStarted, startGame} from "../cardsSlice";
+import {closeCard, selectIsShowed, selectIsStarted, startGame} from "../cardsSlice";
+import {fetchCards} from "../cardsThunks";
 
 
 
@@ -14,12 +15,16 @@ const PlayButton = () => {
     dispatch(startGame());
   };
 
+  const playAgain = async () => {
+    await dispatch(closeCard());
+    await dispatch(fetchCards());
+  };
 
   return (
     <>
       <Button
         variant="contained"
-        onClick={ startTheGame}
+        onClick={isShowed && isStarted ? playAgain : startTheGame}
         sx={{width: '200px'}}
       >
         {isShowed ? 'PLay again' : 'Play'}

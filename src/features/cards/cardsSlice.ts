@@ -32,6 +32,7 @@ export const cardsSlice = createSlice({
     },
     closeCard: state => {
       state.isShowed = false;
+      state.message = '';
     },
     setMessage: (state, action: PayloadAction<string>) => {
       state.message = action.payload;
